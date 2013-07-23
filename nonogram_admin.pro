@@ -20,3 +20,13 @@ HEADERS  += mainwindow.h \
     crossword.h
 
 FORMS    += mainwindow.ui
+
+TRANSLATIONS += translate_ua.ts\
+                translate_ru.ts
+
+RESOURCES += \
+    res.qrc
+
+OTHER_FILES += \
+    translate_ru.ts \
+    translate_ua.ts

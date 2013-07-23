@@ -32,11 +32,11 @@
          <x>0</x>
          <y>0</y>
          <width>632</width>
-         <height>307</height>
+         <height>324</height>
         </rect>
        </property>
        <attribute name="label">
-        <string>Not committed</string>
+        <string>Changes</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
@@ -50,7 +50,7 @@
          <x>0</x>
          <y>0</y>
          <width>632</width>
-         <height>307</height>
+         <height>324</height>
         </rect>
        </property>
        <attribute name="label">
@@ -63,31 +63,43 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>632</width>
+         <height>324</height>
+        </rect>
+       </property>
        <attribute name="label">
         <string>Crossword editor</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="page_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>632</width>
+         <height>324</height>
+        </rect>
+       </property>
        <attribute name="label">
         <string>Log</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QTextEdit" name="textEdit"/>
+         <widget class="QTextEdit" name="log">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>true</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -103,14 +115,44 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuLanguage">
+    <property name="title">
+     <string>Language</string>
+    </property>
+    <addaction name="actionEn"/>
+    <addaction name="actionRu"/>
+    <addaction name="actionUa"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuLanguage"/>
   </widget>
-  <action name="actionTxit">
+  <action name="actionEn">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Exit</string>
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionRu">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Русский</string>
+   </property>
+  </action>
+  <action name="actionUa">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Українська</string>
    </property>
   </action>
   <action name="actionExit">

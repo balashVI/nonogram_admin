@@ -14,9 +14,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void setLang(QString lang);
     
 private:
     Ui::MainWindow *ui;
+
+public slots:
+    void slotLangChanged(QAction *action);
 };
 
 #endif // MAINWINDOW_H
