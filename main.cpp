@@ -27,10 +27,6 @@ QString getLanguage(){
     db.setDatabaseName("settings.sqlite");
     bool open = db.open();
     if(open){
-        db.exec("CREATE TABLE IF NOT EXISTS `settings` ("
-                "`property` text PRIMARY KEY,"
-                "`value` text NOT NULL"
-                ")");
         QSqlQuery query = db.exec("select value from 'settings' where property = 'lang'");
         if(query.next()) res = query.value(0).toString();
     }else{

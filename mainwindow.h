@@ -19,6 +19,9 @@ public:
     
 private:
     Ui::MainWindow *ui;
+    void writeLog(QString str);
+    void writeLogError(QString str);
+    void crateTables();
 
 public slots:
     void slotLangChanged(QAction *action);
