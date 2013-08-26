@@ -19,6 +19,9 @@ public:
     void draw_layout();
     void set_cell_size(short size);
     QString get_crossword();
+    int get_width();
+    int get_height();
+    void set_can_edit(bool state);
 
 private:
     QPixmap *pixmap;
@@ -27,6 +30,8 @@ private:
     QVector <QVector <int> > v_numbers, h_numbers;//Числа v-по вертикалі, h-горизонталі
     unsigned short v_numbers_count, h_numbers_count;
     void calculate_numbers();
+    bool active;
+    bool can_edit;
 
 protected:
     void paintEvent(QPaintEvent* e);

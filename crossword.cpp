@@ -7,6 +7,8 @@ crossword::crossword(QWidget *parent) :
     border = 15;
     pixmap = NULL;
     matrix = NULL;
+    active = false;
+    can_edit = true;
 }
 
 void crossword::paintEvent(QPaintEvent *e){
@@ -18,6 +20,7 @@ void crossword::paintEvent(QPaintEvent *e){
 }
 
 void crossword::setSize(short wCells, short hCells){
+    active=true;
     v_numbers.clear();
     h_numbers.clear();
     v_numbers_count=0;
@@ -109,6 +112,9 @@ void crossword::draw_layout(){
 
 void crossword::set_cell_size(short size){
     cell_size=size;
+    if(active){
+        draw_layout();
+    }
 }
 
 QString crossword::get_crossword()
@@ -121,14 +127,31 @@ QString crossword::get_crossword()
     return "";
 }
 
+int crossword::get_width()
+{
+    return w_cells;
+}
+
+int crossword::get_height()
+{
+    return h_cells;
+}
+
+void crossword::set_can_edit(bool state)
+{
+    can_edit = state;
+}
+
 void crossword::mousePressEvent(QMouseEvent *e){
-    if(e->x()-left_border<0 || e->y()-top_border<0) return;
-    int x_cell = (e->x()-left_border)/cell_size;
-    int y_cell = (e->y()-top_border)/cell_size;
-    if(x_cell>=w_cells || y_cell>=h_cells) return;
-    if(matrix[w_cells*y_cell + x_cell]) matrix[w_cells*y_cell + x_cell]=false;
-    else matrix[w_cells*y_cell + x_cell]=true;
-    calculate_numbers();
+    if(can_edit){
+        if(e->x()-left_border<0 || e->y()-top_border<0) return;
+        int x_cell = (e->x()-left_border)/cell_size;
+        int y_cell = (e->y()-top_border)/cell_size;
+        if(x_cell>=w_cells || y_cell>=h_cells) return;
+        if(matrix[w_cells*y_cell + x_cell]) matrix[w_cells*y_cell + x_cell]=false;
+        else matrix[w_cells*y_cell + x_cell]=true;
+        calculate_numbers();
+    }
 }
 
 void crossword::calculate_numbers()
