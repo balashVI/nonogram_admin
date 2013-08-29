@@ -17,11 +17,12 @@ public:
     ~crossword();
     void setSize(short wCells, short hCells);
     void draw_layout();
-    void set_cell_size(short size);
     QString get_crossword();
     int get_width();
     int get_height();
     void set_can_edit(bool state);
+    void clear();
+    void setCrossword(short wCells, short hCells, QString cr);
 
 private:
     QPixmap *pixmap;
@@ -41,6 +42,7 @@ signals:
     
 public slots:
     void slot_clear();
+    void slot_cell_size(int size);
 };
 
 #endif // CROSSWORD_H

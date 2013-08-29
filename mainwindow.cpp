@@ -12,15 +12,32 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->log->document()->setHtml("["+QTime::currentTime().toString("hh:mm:ss.zzz")+tr("] Program is running"));
-    crateTables();
+
     my_crossword = new crossword();
     ui->scrollArea_crossword->setWidget(my_crossword);
+    connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), my_crossword, SLOT(slot_cell_size(int)));
+
+    changes_cr = new crossword();
+    changes_cr->set_can_edit(false);
+    ui->scrollArea_changes_cr->setWidget(changes_cr);
+    changes_cr->slot_cell_size(ui->horizontalSlider_changes->value());
+    connect(ui->horizontalSlider_changes, SIGNAL(valueChanged(int)), changes_cr, SLOT(slot_cell_size(int)));
+
+    crosswords_cr = new crossword();
+    crosswords_cr->set_can_edit(false);
+    ui->scrollArea_crosswords_cr->setWidget(crosswords_cr);
+    crosswords_cr->slot_cell_size(ui->horizontalSlider_changes->value());
+    connect(ui->horizontalSlider_crosswords, SIGNAL(valueChanged(int)), crosswords_cr, SLOT(slot_cell_size(int)));
+
     editor_status = NOTHING;
+    crateTables();
 }
 
 MainWindow::~MainWindow()
 {
     delete my_crossword;
+    delete changes_cr;
+    delete crosswords_cr;
     delete ui;
 }
 
@@ -88,22 +105,29 @@ void MainWindow::connect_to_tb_changes()
 {
     QSqlDatabase db = QSqlDatabase::database("local");
     QSqlQueryModel *model = new QSqlQueryModel(this);
-    model->setQuery("select date, name, cr_number from changes", db);
+    model->setQuery("select id, date, name, cr_number from changes", db);
     model->setHeaderData(0, Qt::Horizontal, tr("Date"));
     model->setHeaderData(1, Qt::Horizontal, tr("Operation"));
     model->setHeaderData(2, Qt::Horizontal, tr("Crossword"));
     ui->tableView_changes->setModel(model);
+    ui->tableView_changes->setColumnWidth(0, 0);
+    this->connect(ui->tableView_changes->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+                  this, SLOT(slotSelectedChChanged()));
+    slotSelectedChChanged();
 }
 
 void MainWindow::connect_to_tb_crosswords()
 {
     QSqlDatabase db = QSqlDatabase::database("local");
     QSqlQueryModel *model = new QSqlQueryModel(this);
-    model->setQuery("select cr_number, width, height from crosswords", db);
+    model->setQuery("SELECT cr_number, width, height FROM crosswords WHERE NOT edited = 1", db);
     model->setHeaderData(0, Qt::Horizontal, tr("Crossword"));
     model->setHeaderData(1, Qt::Horizontal, tr("Width"));
     model->setHeaderData(2, Qt::Horizontal, tr("Height"));
     ui->tableView_crosswords->setModel(model);
+    this->connect(ui->tableView_crosswords->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+                  this, SLOT(slotSelectedCrChanged()));
+    slotSelectedCrChanged();
 }
 
 void MainWindow::slotLangChanged(QAction *action)
@@ -133,11 +157,6 @@ void MainWindow::on_pushButton_clicked()
     my_crossword->setSize(ui->spinBox_width->value(), ui->spinBox_height->value());
     editor_status = CREATE_NEW;
     current_operation = -1;
-}
-
-void MainWindow::on_horizontalSlider_valueChanged(int value)
-{
-    my_crossword->set_cell_size(value);
 }
 
 void MainWindow::on_pushButton_3_clicked()
@@ -211,4 +230,53 @@ void MainWindow::on_pushButton_2_clicked()
     my_crossword->setSize(my_crossword->get_width(), my_crossword->get_height());
     editor_status = CREATE_NEW;
     current_operation = -1;
+}
+
+void MainWindow::slotSelectedChChanged()
+{
+    if(ui->tableView_changes->selectionModel()->selectedRows().size()==0){
+        ui->horizontalSlider_changes->setEnabled(false);
+        changes_cr->clear();
+    } else {
+        QSqlQuery query = QSqlDatabase::database("local").exec("select type, crossword, width, height, cr_number from"
+                                                               " changes where id=" + ui->tableView_changes->selectionModel()->selectedRows().at(0).data().toString());
+        if(!query.isActive()){
+            writeLogError(query.lastError().text());
+            return;
+        } else if (query.next()){
+            int mode = query.value(0).toInt();
+            if (mode == CREATE || mode == EDIT){
+                changes_cr->setCrossword(query.value(2).toInt(), query.value(3).toInt(), query.value(1).toString());
+                ui->horizontalSlider_changes->setEnabled(true);
+            } else if (mode == REMOVE){
+                query = QSqlDatabase::database("local").exec("select crossword, width, height from crosswords"
+                                                             " where cr_number=" + query.value(4).toString());
+                if(!query.isActive()){
+                    writeLogError(query.lastError().text());
+                    return;
+                } else if (query.next()){
+                    changes_cr->setCrossword(query.value(1).toInt(), query.value(2).toInt(), query.value(0).toString());
+                    ui->horizontalSlider_changes->setEnabled(true);
+                }
+            }
+        }
+    }
+}
+
+void MainWindow::slotSelectedCrChanged()
+{
+    if(ui->tableView_crosswords->selectionModel()->selectedRows().size()==0){
+        ui->horizontalSlider_crosswords->setEnabled(false);
+        crosswords_cr->clear();
+    } else {
+        QSqlQuery query = QSqlDatabase::database("local").exec("select crossword, width, height from crosswords"
+                                                               " where cr_number=" + ui->tableView_crosswords->selectionModel()->selectedRows().at(0).data().toString());
+        if(!query.isActive()){
+            writeLogError(query.lastError().text());
+            return;
+        } else if (query.next()){
+            crosswords_cr->setCrossword(query.value(1).toInt(), query.value(2).toInt(), query.value(0).toString());
+            ui->horizontalSlider_crosswords->setEnabled(true);
+        }
+    }
 }

@@ -25,9 +25,9 @@ void crossword::setSize(short wCells, short hCells){
     h_numbers.clear();
     v_numbers_count=0;
     h_numbers_count=0;
-    delete pixmap;
     w_cells=wCells;
     h_cells=hCells;
+    delete []matrix;
     matrix = new bool[w_cells*h_cells];
     for(int i=0;i<w_cells*h_cells;i++) matrix[i]=false;
     draw_layout();
@@ -40,6 +40,7 @@ void crossword::draw_layout(){
     int w = w_cells*cell_size+left_border + border+2;
     int h = h_cells*cell_size+top_border + border+2;
     this->setFixedSize(w, h);
+    delete pixmap;
     pixmap = new QPixmap(width(), height());
     pixmap->fill(Qt::white);
     QPainter p(pixmap);
@@ -110,13 +111,6 @@ void crossword::draw_layout(){
     p.end();
 }
 
-void crossword::set_cell_size(short size){
-    cell_size=size;
-    if(active){
-        draw_layout();
-    }
-}
-
 QString crossword::get_crossword()
 {
     if(matrix!=NULL){
@@ -140,6 +134,28 @@ int crossword::get_height()
 void crossword::set_can_edit(bool state)
 {
     can_edit = state;
+}
+
+void crossword::clear()
+{
+    active = false;
+    delete pixmap;
+    pixmap = new QPixmap(0, 0);
+}
+
+void crossword::setCrossword(short wCells, short hCells, QString cr)
+{
+    active=true;
+    v_numbers.clear();
+    h_numbers.clear();
+    v_numbers_count=0;
+    h_numbers_count=0;
+    w_cells=wCells;
+    h_cells=hCells;
+    delete matrix;
+    matrix = new bool[w_cells*h_cells];
+    for(int i=0;i<w_cells*h_cells;i++) matrix[i]= (cr.at(i) == '0') ? false : true;
+    calculate_numbers();
 }
 
 void crossword::mousePressEvent(QMouseEvent *e){
@@ -206,6 +222,14 @@ void crossword::calculate_numbers()
 void crossword::slot_clear()
 {
     setSize(w_cells, h_cells);
+}
+
+void crossword::slot_cell_size(int size)
+{
+    cell_size=size;
+    if(active){
+        draw_layout();
+    }
 }
 
 crossword::~crossword(){
