@@ -172,51 +172,49 @@ void crossword::mousePressEvent(QMouseEvent *e){
 
 void crossword::calculate_numbers()
 {
-    if(pixmap!=NULL){
-        v_numbers.clear();
-        h_numbers.clear();
-        v_numbers.resize(h_cells);
-        h_numbers.resize(w_cells);
-        int count=0, i, j;
-        //Обчислення вертикальних чисел
-        for(i=0;i<h_cells;i++){
-            for(j=0;j<w_cells;j++)
-                if(matrix[i*w_cells+j])count++;
-                else if(count){
-                    v_numbers[i].push_front(count);
-                    count = 0;
-                }
-            if(count){
+    v_numbers.clear();
+    h_numbers.clear();
+    v_numbers.resize(h_cells);
+    h_numbers.resize(w_cells);
+    int count=0, i, j;
+    //Обчислення вертикальних чисел
+    for(i=0;i<h_cells;i++){
+        for(j=0;j<w_cells;j++)
+            if(matrix[i*w_cells+j])count++;
+            else if(count){
                 v_numbers[i].push_front(count);
                 count = 0;
             }
+        if(count){
+            v_numbers[i].push_front(count);
+            count = 0;
         }
+    }
 
-        //Обчислення горизонатальних чисел
-        for(i=0;i<w_cells;i++){
-            for(j=0;j<h_cells;j++)
-                if(matrix[j*w_cells+i])count++;
-                else if(count){
-                    h_numbers[i].push_front(count);
-                    count = 0;
-                }
-            if(count){
+    //Обчислення горизонатальних чисел
+    for(i=0;i<w_cells;i++){
+        for(j=0;j<h_cells;j++)
+            if(matrix[j*w_cells+i])count++;
+            else if(count){
                 h_numbers[i].push_front(count);
                 count = 0;
             }
+        if(count){
+            h_numbers[i].push_front(count);
+            count = 0;
         }
-
-        //Обчислення максимальної кількості чисел
-        v_numbers_count=v_numbers[0].size();
-        for(i=1;i<h_cells;i++)
-            if(v_numbers[i].size()>v_numbers_count)v_numbers_count=v_numbers[i].size();
-        h_numbers_count=h_numbers[0].size();
-        for(i=1;i<w_cells;i++)
-            if(h_numbers[i].size()>h_numbers_count)h_numbers_count=h_numbers[i].size();
-
-        draw_layout();
-        repaint();
     }
+
+    //Обчислення максимальної кількості чисел
+    v_numbers_count=v_numbers[0].size();
+    for(i=1;i<h_cells;i++)
+        if(v_numbers[i].size()>v_numbers_count)v_numbers_count=v_numbers[i].size();
+    h_numbers_count=h_numbers[0].size();
+    for(i=1;i<w_cells;i++)
+        if(h_numbers[i].size()>h_numbers_count)h_numbers_count=h_numbers[i].size();
+
+    draw_layout();
+    repaint();
 }
 
 void crossword::slot_clear()

@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QtSql>
 #include <QMessageBox>
-#include <QLabel>
+#include <QAction>
 #include "crossword.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     editor_status = NOTHING;
     crateTables();
+    add_context_menu();
 }
 
 MainWindow::~MainWindow()
@@ -106,9 +107,9 @@ void MainWindow::connect_to_tb_changes()
     QSqlDatabase db = QSqlDatabase::database("local");
     QSqlQueryModel *model = new QSqlQueryModel(this);
     model->setQuery("select id, date, name, cr_number from changes", db);
-    model->setHeaderData(0, Qt::Horizontal, tr("Date"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Operation"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Crossword"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Date"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Operation"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Crossword"));
     ui->tableView_changes->setModel(model);
     ui->tableView_changes->setColumnWidth(0, 0);
     this->connect(ui->tableView_changes->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
@@ -128,6 +129,17 @@ void MainWindow::connect_to_tb_crosswords()
     this->connect(ui->tableView_crosswords->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
                   this, SLOT(slotSelectedCrChanged()));
     slotSelectedCrChanged();
+}
+
+void MainWindow::add_context_menu()
+{
+    QAction *act = new QAction(tr("Edit"), ui->tableView_crosswords);
+    connect(act, SIGNAL(triggered()), this, SLOT(slotCrosswordsEdit()));
+    ui->tableView_crosswords->addAction(act);
+    act = new QAction(tr("Remove"), ui->tableView_crosswords);
+    connect(act, SIGNAL(triggered()), this, SLOT(slotCrosswordsRemove()));
+    ui->tableView_crosswords->addAction(act);
+    ui->tableView_crosswords->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 void MainWindow::slotLangChanged(QAction *action)
@@ -195,8 +207,8 @@ void MainWindow::on_pushButton_3_clicked()
             current_operation = -1;
         }
     } else if(editor_status == EDIT_EXIST){
-        query.prepare("insert into 'changes' ('date', 'type', 'name', 'crossword', 'width', 'height', 'cr_number')"
-                      "values (?, ?, ?, ?, ?, ?, ?)");
+        query.prepare("INSERT INTO 'changes' ('date', 'type', 'name', 'crossword', 'width', 'height', 'cr_number')"
+                      "VALUES (?, ?, ?, ?, ?, ?, ?)");
         query.addBindValue(QDate::currentDate().toString("dd.MM.yyyy"));
         query.addBindValue(EDIT);
         query.addBindValue(tr("Edit"));
@@ -207,8 +219,7 @@ void MainWindow::on_pushButton_3_clicked()
         query.exec();
         if(!query.isActive()) writeLogError(query.lastError().text());
         else {
-            query.prepare("update 'crosswords' set 'edited'=? where 'cr_number'=?");
-            query.addBindValue(1);
+            query.prepare("UPDATE crosswords SET edited=1 WHERE cr_number=?");
             query.addBindValue(current_operation);
             query.exec();
             if(!query.isActive()) writeLogError(query.lastError().text());
@@ -216,6 +227,7 @@ void MainWindow::on_pushButton_3_clicked()
                 ui->toolBox->setCurrentIndex(0);
                 on_pushButton_2_clicked();
                 connect_to_tb_changes();
+                connect_to_tb_crosswords();
                 writeLog(tr("Crossword was edited"));
                 current_operation = -1;
             }
@@ -277,6 +289,57 @@ void MainWindow::slotSelectedCrChanged()
         } else if (query.next()){
             crosswords_cr->setCrossword(query.value(1).toInt(), query.value(2).toInt(), query.value(0).toString());
             ui->horizontalSlider_crosswords->setEnabled(true);
+        }
+    }
+}
+
+void MainWindow::slotCrosswordsRemove()
+{
+    if(editor_status==EDIT_EXIST &&
+            current_operation==ui->tableView_crosswords->selectionModel()->selectedRows().at(0).data().toInt())
+        on_pushButton_2_clicked();
+    QSqlQuery query(QSqlDatabase::database("local"));
+    query.prepare("INSERT INTO changes(date, type, name, cr_number) VALUES(?, ?, ?, ?)");
+    query.addBindValue(QDate::currentDate().toString("dd.MM.yyyy"));
+    query.addBindValue(REMOVE);
+    query.addBindValue(tr("Remove"));
+    query.addBindValue(ui->tableView_crosswords->selectionModel()->selectedRows().at(0).data().toString());
+    query.exec();
+    if(!query.isActive()) writeLogError(query.lastError().text());
+    else {
+        query.prepare("UPDATE crosswords SET edited=1 WHERE cr_number=?");
+        query.addBindValue(ui->tableView_crosswords->selectionModel()->selectedRows().at(0).data().toString());
+        query.exec();
+        if(!query.isActive()) writeLogError(query.lastError().text());
+        ui->toolBox->setCurrentIndex(0);
+        connect_to_tb_changes();
+        connect_to_tb_crosswords();
+    }
+}
+
+void MainWindow::slotCrosswordsEdit()
+{
+    if(editor_status==EDIT_EXIST &&
+            current_operation==ui->tableView_crosswords->selectionModel()->selectedRows().at(0).data().toInt())
+        ui->toolBox->setCurrentIndex(2);
+    else{
+        QSqlQuery query(QSqlDatabase::database("local"));
+        query.prepare("SELECT crossword, width, height FROM crosswords WHERE cr_number=?");
+        query.addBindValue(ui->tableView_crosswords->selectionModel()->selectedRows().at(0).data().toInt());
+        query.exec();
+        if(!query.isActive()) writeLogError(query.lastError().text());
+        else if(query.next()) {
+            if(editor_status == NOTHING){
+                ui->horizontalSlider->setEnabled(true);
+                ui->pushButton_2->setEnabled(true);
+                ui->pushButton_3->setEnabled(true);
+            }
+            ui->label_editor_status->setText(tr("Editing an existing crossword."));
+            ui->pushButton_2->setText(tr("Cancel"));
+            editor_status = EDIT_EXIST;
+            current_operation = ui->tableView_crosswords->selectionModel()->selectedRows().at(0).data().toInt();
+            my_crossword->setCrossword(query.value(1).toInt(), query.value(2).toInt(), query.value(0).toString());
+            ui->toolBox->setCurrentIndex(2);
         }
     }
 }

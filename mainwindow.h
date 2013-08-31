@@ -30,6 +30,7 @@ private:
     void crateTables();
     void connect_to_tb_changes();
     void connect_to_tb_crosswords();
+    void add_context_menu();
 
     enum {
         CREATE, EDIT, REMOVE,
@@ -44,6 +45,8 @@ private slots:
     void on_pushButton_2_clicked();
     void slotSelectedChChanged();
     void slotSelectedCrChanged();
+    void slotCrosswordsRemove();
+    void slotCrosswordsEdit();
 };
 
 #endif // MAINWINDOW_H

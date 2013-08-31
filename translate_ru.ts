@@ -9,73 +9,73 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="57"/>
+        <location filename="mainwindow.ui" line="134"/>
         <source>Crosswords</source>
         <translation>Кроссворды</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="75"/>
+        <location filename="mainwindow.ui" line="235"/>
         <source>Crossword editor</source>
         <translation>Редактор кросвордов</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="142"/>
-        <location filename="mainwindow.cpp" line="152"/>
+        <location filename="mainwindow.ui" line="302"/>
+        <location filename="mainwindow.cpp" line="182"/>
         <source>Create</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="206"/>
-        <location filename="mainwindow.ui" line="345"/>
-        <location filename="mainwindow.cpp" line="132"/>
-        <location filename="mainwindow.cpp" line="210"/>
+        <location filename="mainwindow.ui" line="366"/>
+        <location filename="mainwindow.ui" line="507"/>
+        <location filename="mainwindow.cpp" line="167"/>
+        <location filename="mainwindow.cpp" line="240"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="216"/>
+        <location filename="mainwindow.ui" line="376"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="261"/>
+        <location filename="mainwindow.ui" line="424"/>
         <source>Log</source>
         <translation>Журнал</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="289"/>
+        <location filename="mainwindow.ui" line="452"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="295"/>
+        <location filename="mainwindow.ui" line="457"/>
         <source>Language</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="340"/>
+        <location filename="mainwindow.ui" line="502"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="319"/>
+        <location filename="mainwindow.ui" line="481"/>
         <source>English</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="39"/>
-        <location filename="mainwindow.ui" line="303"/>
+        <location filename="mainwindow.ui" line="465"/>
         <source>List of changes</source>
         <oldsource>Changes</oldsource>
         <translation type="unfinished">Изменения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="327"/>
+        <location filename="mainwindow.ui" line="489"/>
         <source>Русский</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="335"/>
+        <location filename="mainwindow.ui" line="497"/>
         <source>Українська</source>
         <oldsource>Украинский</oldsource>
         <translation></translation>
@@ -86,70 +86,77 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="47"/>
+        <location filename="mainwindow.cpp" line="65"/>
         <source>Error querying database:&lt;br/&gt;&quot;</source>
         <oldsource>Error querying database:&lt;br/&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="92"/>
+        <location filename="mainwindow.cpp" line="110"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="93"/>
+        <location filename="mainwindow.cpp" line="111"/>
         <source>Operation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="94"/>
-        <location filename="mainwindow.cpp" line="103"/>
+        <location filename="mainwindow.cpp" line="112"/>
+        <location filename="mainwindow.cpp" line="125"/>
         <source>Crossword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="131"/>
-        <location filename="mainwindow.cpp" line="209"/>
+        <location filename="mainwindow.cpp" line="138"/>
+        <location filename="mainwindow.cpp" line="301"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="166"/>
+        <location filename="mainwindow.cpp" line="239"/>
         <source>Creating a new crossword.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="162"/>
+        <location filename="mainwindow.cpp" line="192"/>
         <source>Crossword was created</source>
         <oldsource>Created new crossword</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="175"/>
-        <location filename="mainwindow.cpp" line="200"/>
+        <location filename="mainwindow.cpp" line="205"/>
+        <location filename="mainwindow.cpp" line="230"/>
         <source>Crossword was edited</source>
         <oldsource>Edited crossword</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="183"/>
+        <location filename="mainwindow.cpp" line="136"/>
+        <location filename="mainwindow.cpp" line="213"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="95"/>
-        <location filename="mainwindow.cpp" line="104"/>
+        <location filename="mainwindow.ui" line="255"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="112"/>
-        <location filename="mainwindow.cpp" line="105"/>
+        <location filename="mainwindow.ui" line="272"/>
+        <location filename="mainwindow.cpp" line="127"/>
         <source>Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="117"/>
+        <location filename="mainwindow.cpp" line="152"/>
         <source>The language change will take effect after a restart of program.</source>
         <translation>Изменение языка вступит в силу после перезапуска программы.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="118"/>
+        <location filename="mainwindow.cpp" line="153"/>
         <source>Language successfully changed</source>
         <translation type="unfinished"></translation>
     </message>
