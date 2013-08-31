@@ -47,6 +47,9 @@ private slots:
     void slotSelectedCrChanged();
     void slotCrosswordsRemove();
     void slotCrosswordsEdit();
+    void slotChangesEdit();
+    void slotChangesRemove();
+    void slotChangesRemoveAll();
 };
 
 #endif // MAINWINDOW_H

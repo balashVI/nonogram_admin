@@ -141,6 +141,7 @@ void crossword::clear()
     active = false;
     delete pixmap;
     pixmap = new QPixmap(0, 0);
+    repaint();
 }
 
 void crossword::setCrossword(short wCells, short hCells, QString cr)

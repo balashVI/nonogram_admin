@@ -140,6 +140,17 @@ void MainWindow::add_context_menu()
     connect(act, SIGNAL(triggered()), this, SLOT(slotCrosswordsRemove()));
     ui->tableView_crosswords->addAction(act);
     ui->tableView_crosswords->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    act = new QAction(tr("Edit"), ui->tableView_changes);
+    connect(act, SIGNAL(triggered()), this, SLOT(slotChangesEdit()));
+    ui->tableView_changes->addAction(act);
+    act = new QAction(tr("Remove"), ui->tableView_changes);
+    connect(act, SIGNAL(triggered()), this, SLOT(slotChangesRemove()));
+    ui->tableView_changes->addAction(act);
+    act = new QAction(tr("Remove all"), ui->tableView_changes);
+    connect(act, SIGNAL(triggered()), this, SLOT(slotChangesRemoveAll()));
+    ui->tableView_changes->addAction(act);
+    ui->tableView_changes->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 void MainWindow::slotLangChanged(QAction *action)
@@ -193,7 +204,7 @@ void MainWindow::on_pushButton_3_clicked()
             writeLog(tr("Crossword was created"));
         }
     } else if(editor_status == EDIT_NEW){
-        query.prepare("update 'changes' set 'date'=?, 'crossword'=? where 'id'=?");
+        query.prepare("UPDATE changes SET date=?, crossword=? where id=?");
         query.addBindValue(QDate::currentDate().toString("dd.MM.yyyy"));
         query.addBindValue(my_crossword->get_crossword());
         query.addBindValue(current_operation);
@@ -258,9 +269,11 @@ void MainWindow::slotSelectedChChanged()
         } else if (query.next()){
             int mode = query.value(0).toInt();
             if (mode == CREATE || mode == EDIT){
+                ui->tableView_changes->actions().at(0)->setEnabled(true);
                 changes_cr->setCrossword(query.value(2).toInt(), query.value(3).toInt(), query.value(1).toString());
                 ui->horizontalSlider_changes->setEnabled(true);
             } else if (mode == REMOVE){
+                ui->tableView_changes->actions().at(0)->setEnabled(false);
                 query = QSqlDatabase::database("local").exec("select crossword, width, height from crosswords"
                                                              " where cr_number=" + query.value(4).toString());
                 if(!query.isActive()){
@@ -340,6 +353,77 @@ void MainWindow::slotCrosswordsEdit()
             current_operation = ui->tableView_crosswords->selectionModel()->selectedRows().at(0).data().toInt();
             my_crossword->setCrossword(query.value(1).toInt(), query.value(2).toInt(), query.value(0).toString());
             ui->toolBox->setCurrentIndex(2);
+        }
+    }
+}
+
+void MainWindow::slotChangesEdit()
+{
+    if(editor_status==EDIT_NEW &&
+            current_operation==ui->tableView_changes->selectionModel()->selectedRows().at(0).data().toInt())
+        ui->toolBox->setCurrentIndex(2);
+    else{
+        QSqlQuery query(QSqlDatabase::database("local"));
+        query.prepare("SELECT crossword, width, height FROM changes WHERE id=?");
+        query.addBindValue(ui->tableView_changes->selectionModel()->selectedRows().at(0).data().toInt());
+        query.exec();
+        if(!query.isActive()) writeLogError(query.lastError().text());
+        else if(query.next()) {
+            if(editor_status == NOTHING){
+                ui->horizontalSlider->setEnabled(true);
+                ui->pushButton_2->setEnabled(true);
+                ui->pushButton_3->setEnabled(true);
+            }
+            ui->label_editor_status->setText(tr("Edit a new crossword."));
+            ui->pushButton_2->setText(tr("Cancel"));
+            editor_status = EDIT_NEW;
+            current_operation = ui->tableView_changes->selectionModel()->selectedRows().at(0).data().toInt();
+            my_crossword->setCrossword(query.value(1).toInt(), query.value(2).toInt(), query.value(0).toString());
+            ui->toolBox->setCurrentIndex(2);
+        }
+    }
+}
+
+void MainWindow::slotChangesRemove()
+{
+    if(editor_status==EDIT_NEW &&
+            current_operation==ui->tableView_changes->selectionModel()->selectedRows().at(0).data().toInt())
+        on_pushButton_2_clicked();
+    QSqlQuery query(QSqlDatabase::database("local"));
+    query.prepare("SELECT type FROM changes WHERE id=?");
+    query.addBindValue(ui->tableView_changes->selectionModel()->selectedRows().at(0).data().toInt());
+    query.exec();
+    if(!query.isActive()) writeLogError(query.lastError().text());
+    else if(query.next()){
+        if(query.value(0).toInt()==REMOVE || query.value(0).toInt()==EDIT){
+            query.prepare("UPDATE crosswords SET edited=0 WHERE cr_number=?");
+            query.addBindValue(ui->tableView_changes->selectionModel()->selectedRows(3).at(0).data().toInt());
+            query.exec();
+            if(!query.isActive()) writeLogError(query.lastError().text());
+        }
+        query.prepare("DELETE FROM changes WHERE id=?");
+        query.addBindValue(ui->tableView_changes->selectionModel()->selectedRows().at(0).data().toInt());
+        query.exec();
+        if(!query.isActive()) writeLogError(query.lastError().text());
+        else {
+            connect_to_tb_changes();
+            connect_to_tb_crosswords();
+        }
+    }
+}
+
+void MainWindow::slotChangesRemoveAll()
+{
+    if(editor_status==EDIT_NEW) on_pushButton_2_clicked();
+    QSqlQuery query(QSqlDatabase::database("local"));
+    query.exec("DELETE FROM changes");
+    if(!query.isActive()) writeLogError(query.lastError().text());
+    else {
+        query.exec("UPDATE crosswords SET edited=0");
+        if(!query.isActive()) writeLogError(query.lastError().text());
+        else {
+            connect_to_tb_changes();
+            connect_to_tb_crosswords();
         }
     }
 }
