@@ -416,8 +416,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>88</width>
-         <height>88</height>
+         <width>632</width>
+         <height>324</height>
         </rect>
        </property>
        <attribute name="label">
@@ -447,11 +447,6 @@
      <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuLanguage">
     <property name="title">
      <string>Language</string>
@@ -466,7 +461,14 @@
     </property>
     <addaction name="actionClear"/>
    </widget>
-   <addaction name="menuFile"/>
+   <widget class="QMenu" name="menuThe_remout_DB">
+    <property name="title">
+     <string>Databases</string>
+    </property>
+    <addaction name="actionUpdate_remote_database"/>
+    <addaction name="actionUpdate_local_database"/>
+   </widget>
+   <addaction name="menuThe_remout_DB"/>
    <addaction name="menuList_of_changes"/>
    <addaction name="menuLanguage"/>
   </widget>
@@ -505,6 +507,16 @@
   <action name="actionClear">
    <property name="text">
     <string>Clear</string>
+   </property>
+  </action>
+  <action name="actionUpdate_remote_database">
+   <property name="text">
+    <string>Update remote database</string>
+   </property>
+  </action>
+  <action name="actionUpdate_local_database">
+   <property name="text">
+    <string>Update local database</string>
    </property>
   </action>
  </widget>

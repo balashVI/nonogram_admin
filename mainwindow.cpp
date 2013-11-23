@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     editor_status = NOTHING;
     crateTables();
     add_context_menu();
+
+    server_api = QUrl("http://drupalhost.ca/nonogram_api.php");
 }
 
 MainWindow::~MainWindow()

@@ -2,8 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QUrl>
 
 class crossword;
+class QNetworkReply;
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +26,7 @@ private:
     crossword *my_crossword, *changes_cr, *crosswords_cr;
 
     int editor_status, current_operation;
+    QUrl server_api;
 
     void writeLog(QString str);
     void writeLogError(QString str);
@@ -50,6 +53,9 @@ private slots:
     void slotChangesEdit();
     void slotChangesRemove();
     void slotChangesRemoveAll();
+    void on_actionUpdate_remote_database_triggered();
+
+    void remout_db_finish(QNetworkReply* reply);
 };
 
 #endif // MAINWINDOW_H
