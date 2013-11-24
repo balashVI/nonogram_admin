@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QAction>
 #include "crossword.h"
+#include <QNetworkAccessManager>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     add_context_menu();
 
     server_api = QUrl("http://drupalhost.ca/nonogram_api.php");
+    net_manager = new QNetworkAccessManager(this);
 }
 
 MainWindow::~MainWindow()
@@ -99,6 +101,10 @@ void MainWindow::crateTables()
                     "'property', 'value') VALUES ("
                     "'lang', 'en')");
     if(!query.isActive()) writeLogError(query.lastError().text());
+    query = db.exec("INSERT OR IGNORE INTO `settings` ("
+                    "'property', 'value') VALUES ("
+                    "'db_version', '-1')");
+    if(!query.isActive()) writeLogError(query.lastError().text());
 
     connect_to_tb_changes();
     connect_to_tb_crosswords();
@@ -151,6 +157,7 @@ void MainWindow::add_context_menu()
     ui->tableView_changes->addAction(act);
     act = new QAction(tr("Remove all"), ui->tableView_changes);
     connect(act, SIGNAL(triggered()), this, SLOT(slotChangesRemoveAll()));
+    connect(ui->actionClear, SIGNAL(triggered()), this, SLOT(slotChangesRemoveAll()));
     ui->tableView_changes->addAction(act);
     ui->tableView_changes->setContextMenuPolicy(Qt::ActionsContextMenu);
 }

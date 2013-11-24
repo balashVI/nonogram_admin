@@ -6,6 +6,7 @@
 
 class crossword;
 class QNetworkReply;
+class QNetworkAccessManager;
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,7 @@ private:
 
     int editor_status, current_operation;
     QUrl server_api;
+    QNetworkAccessManager *net_manager;
 
     void writeLog(QString str);
     void writeLogError(QString str);
@@ -55,7 +57,9 @@ private slots:
     void slotChangesRemoveAll();
     void on_actionUpdate_remote_database_triggered();
 
-    void remout_db_finish(QNetworkReply* reply);
+    void server_remout_db(QNetworkReply* reply);
+    void server_local_db(QNetworkReply* reply);
+    void on_actionUpdate_local_database_triggered();
 };
 
 #endif // MAINWINDOW_H

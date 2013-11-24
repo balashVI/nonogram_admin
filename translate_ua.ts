@@ -20,15 +20,15 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="302"/>
-        <location filename="mainwindow.cpp" line="196"/>
+        <location filename="mainwindow.cpp" line="202"/>
         <source>Create</source>
         <translation>Створити</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="366"/>
         <location filename="mainwindow.ui" line="509"/>
-        <location filename="mainwindow.cpp" line="181"/>
-        <location filename="mainwindow.cpp" line="254"/>
+        <location filename="mainwindow.cpp" line="187"/>
+        <location filename="mainwindow.cpp" line="260"/>
         <source>Clear</source>
         <translation>Очистити</translation>
     </message>
@@ -94,7 +94,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="14"/>
+        <location filename="mainwindow.cpp" line="15"/>
         <source>] Program is running</source>
         <translation>] Програма успішно запущена</translation>
     </message>
@@ -103,100 +103,100 @@
         <translation type="obsolete">Помилка виконання запиту до бази даних. Помилка:&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="67"/>
+        <location filename="mainwindow.cpp" line="69"/>
         <source>Error querying database:&lt;br/&gt;&quot;</source>
         <oldsource>Error querying database:&lt;br/&gt;</oldsource>
         <translation>Помилка виконання запиту до бази даних:&lt;br/&gt;&quot;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="112"/>
+        <location filename="mainwindow.cpp" line="118"/>
         <source>Date</source>
         <translation>Дата</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="113"/>
+        <location filename="mainwindow.cpp" line="119"/>
         <source>Operation</source>
         <translation>Операція</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="114"/>
-        <location filename="mainwindow.cpp" line="127"/>
+        <location filename="mainwindow.cpp" line="120"/>
+        <location filename="mainwindow.cpp" line="133"/>
         <source>Crossword</source>
         <translation>Кросворд</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="141"/>
-        <location filename="mainwindow.cpp" line="149"/>
-        <location filename="mainwindow.cpp" line="320"/>
+        <location filename="mainwindow.cpp" line="147"/>
+        <location filename="mainwindow.cpp" line="155"/>
+        <location filename="mainwindow.cpp" line="326"/>
         <source>Remove</source>
         <translation>Видалити</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="152"/>
+        <location filename="mainwindow.cpp" line="158"/>
         <source>Remove all</source>
         <translation>Видалити усе</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="180"/>
-        <location filename="mainwindow.cpp" line="253"/>
+        <location filename="mainwindow.cpp" line="186"/>
+        <location filename="mainwindow.cpp" line="259"/>
         <source>Creating a new crossword.</source>
         <translation>Створення нового кросворду. </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="206"/>
+        <location filename="mainwindow.cpp" line="212"/>
         <source>Crossword was created</source>
         <oldsource>Created new crossword</oldsource>
         <translation>Створено новий кросворд</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="219"/>
-        <location filename="mainwindow.cpp" line="244"/>
+        <location filename="mainwindow.cpp" line="225"/>
+        <location filename="mainwindow.cpp" line="250"/>
         <source>Crossword was edited</source>
         <oldsource>Edited crossword</oldsource>
         <translation>Відредаговано кросворд</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="352"/>
+        <location filename="mainwindow.cpp" line="358"/>
         <source>Editing an existing crossword.</source>
         <translation>Редагування наявного кросворду.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="353"/>
-        <location filename="mainwindow.cpp" line="380"/>
+        <location filename="mainwindow.cpp" line="359"/>
+        <location filename="mainwindow.cpp" line="386"/>
         <source>Cancel</source>
         <translation>Відмінити</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="379"/>
+        <location filename="mainwindow.cpp" line="385"/>
         <source>Edit a new crossword.</source>
         <translation>Редагування нового кросворду.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="138"/>
-        <location filename="mainwindow.cpp" line="146"/>
-        <location filename="mainwindow.cpp" line="227"/>
+        <location filename="mainwindow.cpp" line="144"/>
+        <location filename="mainwindow.cpp" line="152"/>
+        <location filename="mainwindow.cpp" line="233"/>
         <source>Edit</source>
         <translation>Редагувати</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="255"/>
-        <location filename="mainwindow.cpp" line="128"/>
+        <location filename="mainwindow.cpp" line="134"/>
         <source>Width</source>
         <translation>Ширина</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="272"/>
-        <location filename="mainwindow.cpp" line="129"/>
+        <location filename="mainwindow.cpp" line="135"/>
         <source>Height</source>
         <translation>Висота</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="166"/>
+        <location filename="mainwindow.cpp" line="172"/>
         <source>The language change will take effect after a restart of program.</source>
         <translation>Зміна мови набуде чинності після перезапуску програми.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="167"/>
+        <location filename="mainwindow.cpp" line="173"/>
         <source>Language successfully changed</source>
         <translation>Мова успішно змінена</translation>
     </message>
@@ -211,13 +211,29 @@
     </message>
     <message>
         <location filename="network.cpp" line="77"/>
-        <source>When updating a remote database errors occurred.</source>
+        <source>Errors have occurred while updating remote database.</source>
+        <oldsource>When updating a remote database errors occurred.</oldsource>
         <translation>Під час оновлення віддаленої бази даних відбулися помилки.</translation>
     </message>
     <message>
         <location filename="network.cpp" line="78"/>
         <source>Remote database has been successfully updated.</source>
         <translation>Віддалена база даних була успішно оновлена.</translation>
+    </message>
+    <message>
+        <location filename="network.cpp" line="111"/>
+        <source>The latest database is installed on your computer.</source>
+        <translation>Остання база даних вже встановлена на вашому компютері.</translation>
+    </message>
+    <message>
+        <location filename="network.cpp" line="152"/>
+        <source>Errors have occurred while updating local database.</source>
+        <translation>Під час оновлення локальної бази даних відбулися помилки.</translation>
+    </message>
+    <message>
+        <location filename="network.cpp" line="153"/>
+        <source>Local database has been successfully updated.</source>
+        <translation>Локальна база даних була успішно оновлена.</translation>
     </message>
 </context>
 </TS>
